@@ -10,7 +10,7 @@ const streamerEntry = document.getElementById('streamerEntry')
 streamerEntry.addEventListener('change', () => {
   //  channel = streamerEntry.value;
 });
-let channel = "timthetatman";
+let channel = "summit1g";
 
 const { Chat } = window.TwitchJs;
 
@@ -22,7 +22,7 @@ app.appendChild(appMessage);
 const chatDiv = document.getElementById("chat");
 
 let chatters = {};
-let chatMessage = [];
+let chatMessages = [];
 let subscribed = [];
 let gifted = [];
 let mod = [];
@@ -38,36 +38,34 @@ const subCheck = document.getElementById('subCheck')
 
 subSlider.addEventListener('change', () => {
   subBox.value = subSlider.value;
-  subscribed = [];
-  filterBy('subLength', subscribed, subSlider.value, chatters);
+  subscribed = filterBy('subLength', subSlider.value, chatters);
   if (subCheck.checked == 1) {
     filterIdList(subscribed, gifted, mod);
-    redrawMessages(chatMessage, filterIds);
+    redrawMessages(chatMessages, filterIds);
   }
 });
+
 
 subBox.addEventListener('change', () => {
   let subBoxValue = parseInt(subBox.value);
   if (!isNaN(subBoxValue)) {
     subSlider.value = subBoxValue;
-    subscribed = [];
-    filterBy('subLength', subscribed, subSlider.value, chatters);
+    subscribed = filterBy('subLength', subSlider.value, chatters);
     if (subCheck.checked == 1) {
       filterIdList(subscribed, gifted, mod);
-      redrawMessages(chatMessage, filterIds);
+      redrawMessages(chatMessages, filterIds);
     }
   }
 });
 
 subCheck.addEventListener('change', () => {
-  console.log(subCheck.checked);
+  subscribed = filterBy('subLength', subSlider.value, chatters);
+  console.log(subscribed);
+  if (subCheck.checked == 0) {
     subscribed = [];
-    filterBy('subLength', subscribed, subSlider.value, chatters);
-    if (subCheck.checked == 0){
-      subscribed = [];
-    }
-    filterIdList(subscribed, gifted, mod);
-    redrawMessages(chatMessage, filterIds);
+  }
+  filterIdList(subscribed, gifted, mod);
+  redrawMessages(chatMessages, filterIds);
 });
 
 
@@ -78,11 +76,10 @@ const giftCheck = document.getElementById('giftCheck')
 
 giftSlider.addEventListener('change', () => {
   giftBox.value = giftSlider.value;
-  gifted = [];
-  filterBy('gift', gifted, giftSlider.value, chatters);
+  gifted = filterBy('gift', giftSlider.value, chatters);
   if (giftCheck.checked == 1) {
     filterIdList(subscribed, gifted, mod);
-    redrawMessages(chatMessage, filterIds);
+    redrawMessages(chatMessages, filterIds);
   }
 });
 
@@ -90,24 +87,21 @@ giftBox.addEventListener('change', () => {
   let giftBoxValue = parseInt(giftBox.value);
   if (!isNaN(giftBoxValue)) {
     giftSlider.value = giftBoxValue;
-    gifted = [];
-    filterBy('gift', gifted, giftSlider.value, chatters);
+    gifted = filterBy('gift', giftSlider.value, chatters);
     if (giftCheck.checked == 1) {
       filterIdList(subscribed, gifted, mod);
-      redrawMessages(chatMessage, filterIds);
+      redrawMessages(chatMessages, filterIds);
     }
   }
 });
 
 giftCheck.addEventListener('change', () => {
-  console.log(giftCheck.checked);
-  gifted = [];
-  filterBy('gift', gifted, giftSlider.value, chatters);
-  if (giftCheck.checked == 0){
+  gifted = filterBy('gift', giftSlider.value, chatters);
+  if (giftCheck.checked == 0) {
     gifted = [];
   }
   filterIdList(subscribed, gifted, mod);
-  redrawMessages(chatMessage, filterIds);
+  redrawMessages(chatMessages, filterIds);
 });
 
 
@@ -115,14 +109,12 @@ giftCheck.addEventListener('change', () => {
 
 const modCheck = document.getElementById('modCheck')
 modCheck.addEventListener('change', () => {
-  console.log(modCheck.checked);
-  mod = [];
-  filterBy('mod', mod, 1, chatters);
-  if (modCheck.checked == 0){
+  mod = filterBy('mod', 1, chatters);
+  if (modCheck.checked == 0) {
     mod = [];
   }
   filterIdList(subscribed, gifted, mod);
-  redrawMessages(chatMessage, filterIds);
+  redrawMessages(chatMessages, filterIds);
 });
 
 
@@ -134,33 +126,29 @@ const run = async () => {
     token,
     log: { level: "warn" }
   });
-  console.log("here");
   chat.on("*", (message) => {
 
-//function to check messages to see if they work,
-//if false, return
+    //function to check messages to see if they work,
+    //if false, return
 
-    console.log(message)
+    // console.log(message)
     splitBadge(message);
 
     newChatter(chatters, message);
 
-    newPrivateMessage(chatMessage, message);
+    newPrivateMessage(chatMessages, message);
     // if(message.event != "PRIVMSG"){
 
     if (subCheck.checked == 1) {
-      subscribed = [];
-      filterBy('subLength', subscribed, subSlider.value, chatters);
+      subscribed = filterBy('subLength', subSlider.value, chatters);
     } else { subscribed = []; }
 
     if (giftCheck.checked == 1) {
-      gifted = [];
-      filterBy('gift', gifted, giftSlider.value, chatters);
+      gifted = filterBy('gift', giftSlider.value, chatters);
     } else { gifted = []; }
 
     if (modCheck.checked == 1) {
-      mod = [];
-      filterBy('mod', mod, 1, chatters);
+      mod = filterBy('mod', 1, chatters);
     } else { mod = []; }
 
     filterIdList(subscribed, gifted, mod);
@@ -168,8 +156,8 @@ const run = async () => {
     appendMessage(message, filterIds);
 
     // console.log(filterIds.length, chatters);
-    // if (chatMessage.length > 10) {
-    // redrawMessages(chatMessage, filterIds);
+    // if (chatMessages.length > 10) {
+    // redrawMessages(chatMessages, filterIds);
     // }
 
 

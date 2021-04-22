@@ -30,12 +30,12 @@ function newChatter(chatters, message) {
     }
 };
 
-function newPrivateMessage(chatMessage, message) {
+function newPrivateMessage(chatMessages, message) {
     if (message.event == "PRIVMSG") {
-        if (chatMessage.length > 500) {
-            chatMessage.shift();
+        if (chatMessages.length > 500) {
+            chatMessages.shift();
         }
-        chatMessage.push({
+        chatMessages.push({
             id: message.tags.userId,
             color: message.tags.color,
             displayName: message.tags.displayName,
@@ -47,84 +47,90 @@ function newPrivateMessage(chatMessage, message) {
     }
 };
 
-function filterBy(filter, array, x, chatters) {
+function filterBy(filter, x, chatters) {
+    const myarr = [];
     for (const userId in chatters) {
-        if (chatters[userId][filter] >= x) {
-            array.push(chatters[userId].id);
+        if (Number(chatters[userId][filter]) >= x) {
+            myarr.push(chatters[userId].id);
         }
-    } return
+    } 
+    return myarr
 };
 
 function filterIdList(...args) {
     filterIds = []
     filterIds = Array.from(new Set(filterIds.concat(...args))); return
+    console.log(filterIds); return
 };
 
 //if no one applies to filter, filter goes to 0, goes back to "normal" logic
 
 function appendMessage(message, filterIds) {
     if (message.tags.displayName != undefined) {
-        if (filterIds.includes(message.tags.userId) == 1) {
-            const appMessage = document.createElement('div');
-            const nameSpan = document.createElement('span');
-            const messageText = document.createElement('span');
+        // if (filterIds.includes(message.tags.userId) == 1) {
+        //     const appMessage = document.createElement('div');
+        //     const nameSpan = document.createElement('span');
+        //     const messageText = document.createElement('span');
 
-            app.appendChild(appMessage)
+        //     app.appendChild(appMessage)
 
-            nameSpan.innerText = message.tags.displayName;
-            nameSpan.style.color = message.tags.color;
-            appMessage.appendChild(nameSpan);
+        //     nameSpan.innerText = message.tags.displayName;
+        //     nameSpan.style.color = message.tags.color;
+        //     appMessage.appendChild(nameSpan);
 
-            messageText.innerText = ': ' + message.message || "";
-            appMessage.appendChild(messageText);
-        } else if (filterIds == 0) {
-            const appMessage = document.createElement('div');
-            const nameSpan = document.createElement('span');
-            const messageText = document.createElement('span');
+        //     messageText.innerText = ': ' + message.message || "";
+        //     appMessage.appendChild(messageText);
+        // } 
+        // else 
+        // if (filterIds == 0) {
+        const appMessage = document.createElement('div');
+        const nameSpan = document.createElement('span');
+        const messageText = document.createElement('span');
 
-            app.appendChild(appMessage)
+        app.appendChild(appMessage)
 
-            nameSpan.innerText = message.tags.displayName;
-            nameSpan.style.color = message.tags.color;
-            appMessage.appendChild(nameSpan);
+        nameSpan.innerText = message.tags.displayName;
+        nameSpan.style.color = message.tags.color;
+        appMessage.appendChild(nameSpan);
 
-            messageText.innerText = ': ' + message.message || "";
-            appMessage.appendChild(messageText);
-        }
+        messageText.innerText = ': ' + message.message || "";
+        appMessage.appendChild(messageText);
+        // }
 
     } return
 };
 
-function redrawMessages(chatMessage, filterIds) {
+function redrawMessages(chatMessages, filterIds) {
     app.innerHTML = '';
-    for (i = 0; i < chatMessage.length; i++) {
-        if (filterIds.includes(chatMessage[i].id) == 1) {
+    for (i = 0; i < chatMessages.length; i++) {
+        if (filterIds.includes(chatMessages[i].id) == 1) {
             const appMessage = document.createElement('div');
             const nameSpan = document.createElement('span');
             const messageText = document.createElement('span');
 
             app.appendChild(appMessage)
 
-            nameSpan.innerText = chatMessage[i].displayName;
-            nameSpan.style.color = chatMessage[i].color;
+            nameSpan.innerText = chatMessages[i].displayName;
+            nameSpan.style.color = chatMessages[i].color;
             appMessage.appendChild(nameSpan);
 
-            messageText.innerText = ': ' + chatMessage[i].message || "";
+            messageText.innerText = ': ' + chatMessages[i].message || "";
             appMessage.appendChild(messageText);
-        } else if (filterIds.length == 0) {
-            const appMessage = document.createElement('div');
-            const nameSpan = document.createElement('span');
-            const messageText = document.createElement('span');
-
-            app.appendChild(appMessage)
-
-            nameSpan.innerText = chatMessage[i].displayName;
-            nameSpan.style.color = chatMessage[i].color;
-            appMessage.appendChild(nameSpan);
-
-            messageText.innerText = ': ' + chatMessage[i].message || "";
-            appMessage.appendChild(messageText);
-
         }
+        // else if (filterIds.length == 0) {
+        //     const appMessage = document.createElement('div');
+        //     const nameSpan = document.createElement('span');
+        //     const messageText = document.createElement('span');
+
+        //     app.appendChild(appMessage)
+
+        //     nameSpan.innerText = chatMessages[i].displayName;
+        //     nameSpan.style.color = chatMessages[i].color;
+        //     appMessage.appendChild(nameSpan);
+
+        //     messageText.innerText = ': ' + chatMessages[i].message || "";
+        //     appMessage.appendChild(messageText);
+
+        // }
     } return
 };
