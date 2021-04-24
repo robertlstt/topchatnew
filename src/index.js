@@ -10,7 +10,7 @@ const streamerEntry = document.getElementById('streamerEntry')
 streamerEntry.addEventListener('change', () => {
   //  channel = streamerEntry.value;
 });
-let channel = "summit1g";
+let channel = "nickmercs";
 
 const { Chat } = window.TwitchJs;
 
@@ -60,7 +60,6 @@ subBox.addEventListener('change', () => {
 
 subCheck.addEventListener('change', () => {
   subscribed = filterBy('subLength', subSlider.value, chatters);
-  console.log(subscribed);
   if (subCheck.checked == 0) {
     subscribed = [];
   }

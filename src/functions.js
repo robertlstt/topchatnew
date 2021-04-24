@@ -48,12 +48,12 @@ function newPrivateMessage(chatMessages, message) {
 };
 
 function filterBy(filter, x, chatters) {
-    const myarr = [];
+    const myarr = [1];
     for (const userId in chatters) {
         if (Number(chatters[userId][filter]) >= x) {
             myarr.push(chatters[userId].id);
         }
-    } 
+    }
     return myarr
 };
 
@@ -67,22 +67,20 @@ function filterIdList(...args) {
 
 function appendMessage(message, filterIds) {
     if (message.tags.displayName != undefined) {
-        // if (filterIds.includes(message.tags.userId) == 1) {
-        //     const appMessage = document.createElement('div');
-        //     const nameSpan = document.createElement('span');
-        //     const messageText = document.createElement('span');
+        if (filterIds.includes(message.tags.userId) == 1) {
+            const appMessage = document.createElement('div');
+            const nameSpan = document.createElement('span');
+            const messageText = document.createElement('span');
 
-        //     app.appendChild(appMessage)
+            app.appendChild(appMessage)
 
-        //     nameSpan.innerText = message.tags.displayName;
-        //     nameSpan.style.color = message.tags.color;
-        //     appMessage.appendChild(nameSpan);
+            nameSpan.innerText = message.tags.displayName;
+            nameSpan.style.color = message.tags.color;
+            appMessage.appendChild(nameSpan);
 
-        //     messageText.innerText = ': ' + message.message || "";
-        //     appMessage.appendChild(messageText);
-        // } 
-        // else 
-        // if (filterIds == 0) {
+            messageText.innerText = ': ' + message.message || "";
+            appMessage.appendChild(messageText);
+        } else if(filterIds == 0) {
         const appMessage = document.createElement('div');
         const nameSpan = document.createElement('span');
         const messageText = document.createElement('span');
@@ -95,7 +93,7 @@ function appendMessage(message, filterIds) {
 
         messageText.innerText = ': ' + message.message || "";
         appMessage.appendChild(messageText);
-        // }
+        }
 
     } return
 };
@@ -117,20 +115,20 @@ function redrawMessages(chatMessages, filterIds) {
             messageText.innerText = ': ' + chatMessages[i].message || "";
             appMessage.appendChild(messageText);
         }
-        // else if (filterIds.length == 0) {
-        //     const appMessage = document.createElement('div');
-        //     const nameSpan = document.createElement('span');
-        //     const messageText = document.createElement('span');
+        else if (filterIds.length == 0) {
+            const appMessage = document.createElement('div');
+            const nameSpan = document.createElement('span');
+            const messageText = document.createElement('span');
 
-        //     app.appendChild(appMessage)
+            app.appendChild(appMessage)
 
-        //     nameSpan.innerText = chatMessages[i].displayName;
-        //     nameSpan.style.color = chatMessages[i].color;
-        //     appMessage.appendChild(nameSpan);
+            nameSpan.innerText = chatMessages[i].displayName;
+            nameSpan.style.color = chatMessages[i].color;
+            appMessage.appendChild(nameSpan);
 
-        //     messageText.innerText = ': ' + chatMessages[i].message || "";
-        //     appMessage.appendChild(messageText);
+            messageText.innerText = ': ' + chatMessages[i].message || "";
+            appMessage.appendChild(messageText);
 
-        // }
+        }
     } return
 };
