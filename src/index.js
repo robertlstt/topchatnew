@@ -5,19 +5,22 @@
 const username = undefined;
 const token = undefined;
 
+let chat;
 
-const streamerEntry = document.getElementById('streamerEntry')
-streamerEntry.addEventListener('change', () => {
-  //  channel = streamerEntry.value;
+const streamerEntryForm = document.getElementById('streamerEntryForm')
+streamerEntryForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const streamerName = document.getElementById('streamerEntry');
+  if(chat){
+    chat.disconnect();
+    app.innerHTML = '';
+  }
+  run(streamerName.value);
+
 });
-let channel = "nickmercs";
+// let channel = "moonmoon";
 
 const { Chat } = window.TwitchJs;
-
-const app = document.getElementById("app");
-
-const appMessage = document.createElement('div');
-app.appendChild(appMessage);
 
 const chatDiv = document.getElementById("chat");
 
@@ -26,7 +29,7 @@ let chatMessages = [];
 let subscribed = [];
 let gifted = [];
 let mod = [];
-let filterIds = []
+let filterIds = new Set;
 
 
 
@@ -119,8 +122,8 @@ modCheck.addEventListener('change', () => {
 
 
 
-const run = async () => {
-  const chat = new Chat({
+const run = async (channel) => {
+  chat = new Chat({
     username,
     token,
     log: { level: "warn" }
@@ -177,4 +180,4 @@ const run = async () => {
   await chat.join(channel);
 };
 
-run();
+// run();

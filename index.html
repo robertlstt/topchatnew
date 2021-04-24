@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
- 
+
 <head>
   <title>TopChat</title>
   <meta charset="UTF-8" />
@@ -14,7 +14,6 @@
       bottom: 0;
       right: 150px;
       overflow-y: scroll;
-      
     }
 
     .filters {
@@ -47,30 +46,30 @@
       width: 5%;
     }
 
-    .special{
-    width: 1.3em;
-    height: 1.3em;
-    background-color: white;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
-    transition: all ease-in-out .3s;
+    .special {
+      width: 1.3em;
+      height: 1.3em;
+      background-color: white;
+      border-radius: 50%;
+      vertical-align: middle;
+      border: 1px solid #ddd;
+      -webkit-appearance: none;
+      outline: none;
+      cursor: pointer;
+      transition: all ease-in-out .3s;
     }
 
-    .special:checked{
-    width: 1.3em;
-    height: 1.3em;
-    background-color: blue;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
-    transition: all ease-in-out .3s;
+    .special:checked {
+      width: 1.3em;
+      height: 1.3em;
+      background-color: blue;
+      border-radius: 50%;
+      vertical-align: middle;
+      border: 1px solid #ddd;
+      -webkit-appearance: none;
+      outline: none;
+      cursor: pointer;
+      transition: all ease-in-out .3s;
     }
   </style>
 </head>
@@ -100,7 +99,10 @@
 
   </div>
   <div id="streamerentry" class="streamerEntry">
-    <input id="streamerEntry">
+    <form id="streamerEntryForm">
+      <input id="streamerEntry">
+      <button id="entryButton" style="width: 50px; height: 20px;"></button>
+    </form>
   </div>
   <img src="images/TopChatLight.svg" class="logo" alt="Topchat Logo"></img>
   <script src="src/index.js"></script>

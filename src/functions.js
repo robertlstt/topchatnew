@@ -8,11 +8,11 @@ function splitBadge(message) {
                 if (subCheck[0] == "subscriber") {
                     subNum = subCheck[1];
                 } else {
-                    subNum = 0; return
+                    subNum = 0;
                 }
             }
         } else {
-            subNum = 0; return
+            subNum = 0;
         }
     }
 };
@@ -26,7 +26,7 @@ function newChatter(chatters, message) {
             gift: message.tags.badges.subGifter,
             subLength: subNum,
             mod: message.tags.mod
-        }; return
+        };
     }
 };
 
@@ -43,7 +43,7 @@ function newPrivateMessage(chatMessages, message) {
             messageTime: message.timestamp.toJSON(),
             message: message.message,
             messageLength: message.message.length
-        }); return
+        });
     }
 };
 
@@ -58,21 +58,23 @@ function filterBy(filter, x, chatters) {
 };
 
 function filterIdList(...args) {
-    filterIds = []
-    filterIds = Array.from(new Set(filterIds.concat(...args))); return
-    console.log(filterIds); return
+    filterIds = new Set([].concat(...args));
 };
 
 //if no one applies to filter, filter goes to 0, goes back to "normal" logic
 
 function appendMessage(message, filterIds) {
-    if (message.tags.displayName != undefined) {
-        if (filterIds.includes(message.tags.userId) == 1) {
-            const appMessage = document.createElement('div');
-            const nameSpan = document.createElement('span');
-            const messageText = document.createElement('span');
 
-            app.appendChild(appMessage)
+    const atBottom = app.scrollHeight == app.scrollTop + app.offsetHeight;
+
+    const appMessage = document.createElement('div');
+    const nameSpan = document.createElement('span');
+    const messageText = document.createElement('span');
+    app.appendChild(appMessage)
+
+
+    if (message.tags.displayName != undefined) {
+        if (filterIds.has(message.tags.userId)) {
 
             nameSpan.innerText = message.tags.displayName;
             nameSpan.style.color = message.tags.color;
@@ -80,33 +82,33 @@ function appendMessage(message, filterIds) {
 
             messageText.innerText = ': ' + message.message || "";
             appMessage.appendChild(messageText);
-        } else if(filterIds == 0) {
-        const appMessage = document.createElement('div');
-        const nameSpan = document.createElement('span');
-        const messageText = document.createElement('span');
+        } else if (filterIds.size === 0) {
 
-        app.appendChild(appMessage)
+            nameSpan.innerText = message.tags.displayName;
+            nameSpan.style.color = message.tags.color;
+            appMessage.appendChild(nameSpan);
 
-        nameSpan.innerText = message.tags.displayName;
-        nameSpan.style.color = message.tags.color;
-        appMessage.appendChild(nameSpan);
-
-        messageText.innerText = ': ' + message.message || "";
-        appMessage.appendChild(messageText);
+            messageText.innerText = ': ' + message.message || "";
+            appMessage.appendChild(messageText);
         }
-
-    } return
+    }
+    if (atBottom) {
+        appMessage.scrollIntoView();
+    }
 };
 
 function redrawMessages(chatMessages, filterIds) {
+
     app.innerHTML = '';
+    let appMessage
     for (i = 0; i < chatMessages.length; i++) {
-        if (filterIds.includes(chatMessages[i].id) == 1) {
-            const appMessage = document.createElement('div');
-            const nameSpan = document.createElement('span');
-            const messageText = document.createElement('span');
 
-            app.appendChild(appMessage)
+        appMessage = document.createElement('div');
+        const nameSpan = document.createElement('span');
+        const messageText = document.createElement('span');
+        app.appendChild(appMessage)
+
+        if (filterIds.has(chatMessages[i].id)) {
 
             nameSpan.innerText = chatMessages[i].displayName;
             nameSpan.style.color = chatMessages[i].color;
@@ -115,12 +117,7 @@ function redrawMessages(chatMessages, filterIds) {
             messageText.innerText = ': ' + chatMessages[i].message || "";
             appMessage.appendChild(messageText);
         }
-        else if (filterIds.length == 0) {
-            const appMessage = document.createElement('div');
-            const nameSpan = document.createElement('span');
-            const messageText = document.createElement('span');
-
-            app.appendChild(appMessage)
+        else if (filterIds.size === 0) {
 
             nameSpan.innerText = chatMessages[i].displayName;
             nameSpan.style.color = chatMessages[i].color;
@@ -130,5 +127,6 @@ function redrawMessages(chatMessages, filterIds) {
             appMessage.appendChild(messageText);
 
         }
-    } return
+    }
+    appMessage.scrollIntoView();
 };
