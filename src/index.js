@@ -11,14 +11,13 @@ const streamerEntryForm = document.getElementById('streamerEntryForm')
 streamerEntryForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const streamerName = document.getElementById('streamerEntry');
-  if(chat){
+  if (chat) {
     chat.disconnect();
     app.innerHTML = '';
   }
   run(streamerName.value);
 
 });
-// let channel = "moonmoon";
 
 const { Chat } = window.TwitchJs;
 
@@ -34,6 +33,13 @@ let filterIds = new Set;
 
 
 
+// function makeFilter(name) {
+//   const nameSlider = document.getElementById('[name]Slider');
+//   const nameBox = document.getElementById('[name]Box');
+//   const nameCheck = document.getElementById('[name]Check');
+// }
+
+// makeFilter(sub)
 
 const subSlider = document.getElementById('subSlider')
 const subBox = document.getElementById('subBox')
