@@ -8,16 +8,17 @@
   <style>
     .chat {
       position: absolute;
-      background: purple;
       top: 5%;
       left: 0;
       bottom: 0;
       right: 150px;
       overflow-y: scroll;
+      background: #765b5b;
     }
 
     .filters {
-      background: red;
+      /* background: red; */
+      background: #765b5b;
       position: absolute;
       width: 150px;
       right: 0px;
@@ -29,7 +30,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: green;
+      background: transparent;
       position: absolute;
       left: 0px;
       right: 0px;
@@ -75,7 +76,7 @@
 </head>
 
 <body>
-  <div id="app" class="chat"></div>
+    <div id="app" class="chat"></div>
   <div id="filters" class="filters">
 
     <div id="subfilter">
@@ -99,16 +100,18 @@
 
   </div>
   <div id="streamerentry" class="streamerEntry">
+        <form id="streamerEntryForm">
+          <input id="streamerEntry">
+          <button id="entryButton" style="width: 50px; height: 20px;"></button>
+        </form>
+    </div>
 
-    <form id="streamerEntryForm">
-      <input id="streamerEntry">
-      <button id="entryButton" style="width: 50px; height: 20px;"></button>
-    </form>
 
   </div>
   <img src="images/TopChatLight.svg" class="logo" alt="Topchat Logo"></img>
   <script src="src/index.js"></script>
   <script src="src/functions.js"></script>
+  <link rel="stylesheet" href="src/styles.css">
 </body>
 
 </html>
