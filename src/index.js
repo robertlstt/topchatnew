@@ -30,8 +30,7 @@ let gifted = [];
 let mod = [];
 let filterIds = new Set;
 
-
-function makeSliderFilter({ type, filterName, min, max, step, start, blop }, onChange) {
+function makeFilter({ type, filterName, min, max, step, start, blop }, onChange) {
 
     const filterDiv = document.createElement('div');
     const checkBox = document.createElement('input');
@@ -71,15 +70,20 @@ function makeSliderFilter({ type, filterName, min, max, step, start, blop }, onC
                 onChange(checkBox.checked, parseInt(slider.value));
             }
         });
-    }
 
-    checkBox.addEventListener('change', () => {
-        onChange(checkBox.checked, parseInt(slider.value));
-    })
+        checkBox.addEventListener('change', () => {
+            onChange(checkBox.checked, parseInt(slider.value));
+        });
+    }
+    if (type === 1) {
+        checkBox.addEventListener('change', () => {
+            onChange(checkBox.checked, 1);
+        })
+    }
     return filterDiv;
 }
 
-// function makeSliderFilter({ type, filterName, min, max, step, start, blop }, onChange)
+// function makeFilter({ type, filterName, min, max, step, start, blop }, onChange)
 const Filters = [
     { type: 0, filterName: 'subLength', min: 1, max: 60, step: 1, start: 6 },
     { type: 0, filterName: 'gift', min: 5, max: 150, step: 5, start: 5 },
@@ -100,7 +104,7 @@ Filters.forEach(Filter => {
         filterIdList(Object.values(usersByFilterName));
         redrawMessages(chatMessages, filterIds);
     };
-    document.getElementById('filters').appendChild(makeSliderFilter(Filter, onChange));
+    document.getElementById('filters').appendChild(makeFilter(Filter, onChange));
 })
 
 // const subSlider = document.getElementById('subSlider')
@@ -191,7 +195,7 @@ Filters.forEach(Filter => {
 
 
 
-const run = async(channel) => {
+const run = async (channel) => {
     chat = new Chat({
         username,
         token,
