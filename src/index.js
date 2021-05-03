@@ -31,15 +31,100 @@ let mod = [];
 let filterIds = new Set;
 
 
+function makeSliderFilter(filterName, min, max, step, start, blop, onToggle, onChange) {
+
+  const filterDiv = document.createElement('div');
+  const checkBox = document.createElement('input');
+  const fName = document.createElement('span');
+  const inputBox = document.createElement('input');
+  const slider = document.createElement('input');
+
+  filterDiv.appendChild(checkBox);
+  filterDiv.appendChild(fName);
+  filterDiv.appendChild(inputBox);
+  filterDiv.appendChild(slider);
+
+  checkBox.type = 'checkbox';
+  checkBox.className = 'boxClass';
+  fName.innerText = filterName;
+  inputBox.style.width = '25px';
+  inputBox.value = start;
+  slider.type = 'range';
+  slider.min = min;
+  slider.max = max;
+  slider.step = step;
+  slider.value = start;
+
+  slider.addEventListener('change', () => {
+    inputBox.value = slider.value;
+    onChange(slider.value);
+  });
+
+  inputBox.addEventListener('change', () => {
+    let value = parseInt(inputBox.value);
+    if (!isNaN(value)) {
+      slider.value = value;
+      onChange(slider.value);
+    }
+  });
 
 
-// function makeFilter(name) {
-//   const nameSlider = document.getElementById('[name]Slider');
-//   const nameBox = document.getElementById('[name]Box');
-//   const nameCheck = document.getElementById('[name]Check');
-// }
 
-// makeFilter(sub)
+  return filterDiv;
+}
+
+function makeCheckFilter(filterName, blop, onToggle) {
+
+  const filterDiv = document.createElement('div');
+  const checkBox = document.createElement('input');
+  const fName = document.createElement('span');
+
+  filterDiv.appendChild(checkBox);
+  filterDiv.appendChild(fName);
+
+  checkBox.type = 'checkbox';
+  checkBox.className = 'boxClass';
+  fName.innerText = filterName;
+
+
+  return filterDiv;
+}
+
+
+// makefilter (filterName, min, max, step, start, blop)
+const Filters = [
+  makeSliderFilter(' Length ', 1, 60, 1, 6, 0, () => { }, (value) => {
+    subscribed = filterBy('subLength', subSlider.value, chatters);
+    if (subCheck.checked == 1) {
+      filterIdList(subscribed, gifted, mod);
+      redrawMessages(chatMessages, filterIds);
+    }
+  }),
+
+  makeSliderFilter(' Gifted Subs ', 5, 150, 5, 5, 0, 
+  
+  () => {
+    gifted = filterBy('gift', giftSlider.value, chatters);
+    if (giftCheck.checked == 0) {
+      gifted = [];
+    }
+    filterIdList(subscribed, gifted, mod);
+    redrawMessages(chatMessages, filterIds);
+   },
+  
+  
+  (value) => {
+    gifted = filterBy('gift', giftSlider.value, chatters);
+    if (giftCheck.checked == 1) {
+      filterIdList(subscribed, gifted, mod);
+      redrawMessages(chatMessages, filterIds);
+    }
+  }),
+
+  makeCheckFilter(' Mod ', 0),
+]
+
+Filters.forEach(Filter => document.getElementById('filters').appendChild(Filter))
 
 const subSlider = document.getElementById('subSlider')
 const subBox = document.getElementById('subBox')
@@ -66,6 +151,10 @@ subBox.addEventListener('change', () => {
     }
   }
 });
+
+
+
+
 
 subCheck.addEventListener('change', () => {
   subscribed = filterBy('subLength', subSlider.value, chatters);
