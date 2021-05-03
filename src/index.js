@@ -30,7 +30,7 @@ let gifted = [];
 let mod = [];
 let filterIds = new Set;
 
-function makeFilter({ type, filterName, min, max, step, start, blop }, onChange) {
+function makeFilter({ type, filterFor, filterName, min, max, step, start, blop }, onChange) {
 
     const filterDiv = document.createElement('div');
     const checkBox = document.createElement('input');
@@ -49,7 +49,7 @@ function makeFilter({ type, filterName, min, max, step, start, blop }, onChange)
         const slider = document.createElement('input');
         filterDiv.appendChild(inputBox);
         filterDiv.appendChild(slider);
-        inputBox.style.width = '25px';
+        inputBox.style.width = '29px';
         inputBox.value = start;
         slider.type = 'range';
         slider.min = min;
@@ -85,9 +85,10 @@ function makeFilter({ type, filterName, min, max, step, start, blop }, onChange)
 
 // function makeFilter({ type, filterName, min, max, step, start, blop }, onChange)
 const Filters = [
-    { type: 0, filterName: 'subLength', min: 1, max: 60, step: 1, start: 6 },
-    { type: 0, filterName: 'gift', min: 5, max: 150, step: 5, start: 5 },
-    { type: 1, filterName: 'mod' }
+    { type: 0, filterFor: 'subLength', filterName:' Sub Length ' ,min: 1, max: 60, step: 1, start: 6 },
+    { type: 0, filterFor: 'gift', filterName: ' Gifted Subs ',min: 5, max: 150, step: 5, start: 5 },
+    { type: 0, filterFor: 'bits', filterName: ' Bit Badge ',min: 100, max: 5000, step: 100, start: 100 },
+    { type: 1, filterFor: 'mod', filterName: ' Mod '}
 ];
 
 const usersByFilterName = {};
@@ -97,103 +98,15 @@ Filters.forEach(Filter => {
         Filter.checked = checked;
         Filter.value = value
         if (checked) {
-            usersByFilterName[Filter.filterName] = filterBy(Filter.filterName, value, chatters);
+            usersByFilterName[Filter.filterFor] = filterBy(Filter.filterFor, value, chatters);
         } else {
-            usersByFilterName[Filter.filterName] = [];
+            usersByFilterName[Filter.filterFor] = [];
         }
         filterIdList(Object.values(usersByFilterName));
         redrawMessages(chatMessages, filterIds);
     };
     document.getElementById('filters').appendChild(makeFilter(Filter, onChange));
 })
-
-// const subSlider = document.getElementById('subSlider')
-// const subBox = document.getElementById('subBox')
-// const subCheck = document.getElementById('subCheck')
-
-// subSlider.addEventListener('change', () => {
-//   subBox.value = subSlider.value;
-//   subscribed = filterBy('subLength', subSlider.value, chatters);
-//   if (subCheck.checked == 1) {
-//     filterIdList(subscribed, gifted, mod);
-//     redrawMessages(chatMessages, filterIds);
-//   }
-// });
-
-
-// subBox.addEventListener('change', () => {
-//   let subBoxValue = parseInt(subBox.value);
-//   if (!isNaN(subBoxValue)) {
-//     subSlider.value = subBoxValue;
-//     subscribed = filterBy('subLength', subSlider.value, chatters);
-//     if (subCheck.checked == 1) {
-//       filterIdList(subscribed, gifted, mod);
-//       redrawMessages(chatMessages, filterIds);
-//     }
-//   }
-// });
-
-
-// subCheck.addEventListener('change', () => {
-//   subscribed = filterBy('subLength', subSlider.value, chatters);
-//   if (subCheck.checked == 0) {
-//     subscribed = [];
-//   }
-//   filterIdList(subscribed, gifted, mod);
-//   redrawMessages(chatMessages, filterIds);
-// });
-
-
-
-// const giftSlider = document.getElementById('giftSlider')
-// const giftBox = document.getElementById('giftBox')
-// const giftCheck = document.getElementById('giftCheck')
-
-// giftSlider.addEventListener('change', () => {
-//   giftBox.value = giftSlider.value;
-//   gifted = filterBy('gift', giftSlider.value, chatters);
-//   if (giftCheck.checked == 1) {
-//     filterIdList(subscribed, gifted, mod);
-//     redrawMessages(chatMessages, filterIds);
-//   }
-// });
-
-// giftBox.addEventListener('change', () => {
-//   let giftBoxValue = parseInt(giftBox.value);
-//   if (!isNaN(giftBoxValue)) {
-//     giftSlider.value = giftBoxValue;
-//     gifted = filterBy('gift', giftSlider.value, chatters);
-//     if (giftCheck.checked == 1) {
-//       filterIdList(subscribed, gifted, mod);
-//       redrawMessages(chatMessages, filterIds);
-//     }
-//   }
-// });
-
-// giftCheck.addEventListener('change', () => {
-//   gifted = filterBy('gift', giftSlider.value, chatters);
-//   if (giftCheck.checked == 0) {
-//     gifted = [];
-//   }
-//   filterIdList(subscribed, gifted, mod);
-//   redrawMessages(chatMessages, filterIds);
-// });
-
-
-
-
-// const modCheck = document.getElementById('modCheck')
-// modCheck.addEventListener('change', () => {
-//   mod = filterBy('mod', 1, chatters);
-//   if (modCheck.checked == 0) {
-//     mod = [];
-//   }
-//   filterIdList(subscribed, gifted, mod);
-//   redrawMessages(chatMessages, filterIds);
-// });
-
-
-
 
 const run = async (channel) => {
     chat = new Chat({
@@ -211,9 +124,9 @@ const run = async (channel) => {
         // if(message.event != "PRIVMSG"){
         Filters.forEach(Filter => {
             if (Filter.checked) {
-                usersByFilterName[Filter.filterName] = filterBy(Filter.filterName, Filter.value, chatters);
+                usersByFilterName[Filter.filterFor] = filterBy(Filter.filterFor, Filter.value, chatters);
             } else {
-                usersByFilterName[Filter.filterName] = [];
+                usersByFilterName[Filter.filterFor] = [];
             }
             filterIdList(Object.values(usersByFilterName));
         })
@@ -235,7 +148,11 @@ const run = async (channel) => {
         // message.event == "SUBSCRIPTION" || message.event == "RESUBSCRIPTION"  || message.event == "SUBSCRIPTION_GIFT"
     })
     await chat.connect();
+    const Connecting = document.createElement('span');
+    Connecting.innerText = 'Connecting....'
+    app.appendChild(Connecting);
     await chat.join(channel);
+
 };
 
 // run();

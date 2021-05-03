@@ -25,6 +25,7 @@ function newChatter(chatters, message) {
             color: message.tags.color,
             gift: message.tags.badges.subGifter,
             subLength: subNum,
+            bits: message.tags.badges.bits,
             mod: message.tags.mod
         };
     }

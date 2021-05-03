@@ -42,7 +42,7 @@ body {
     /* background: red; */
     background: var(--primary-light);
     position: absolute;
-    width: 170px;
+    width: 180px;
     right: 0px;
     bottom: 0px;
     top: 5%;
