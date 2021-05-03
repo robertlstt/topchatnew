@@ -47,10 +47,10 @@ function newPrivateMessage(chatMessages, message) {
     }
 };
 
-function filterBy(filter, x, chatters) {
+function filterBy(filter, value, chatters) {
     const myarr = [1];
     for (const userId in chatters) {
-        if (Number(chatters[userId][filter]) >= x) {
+        if (Number(chatters[userId][filter]) >= value) {
             myarr.push(chatters[userId].id);
         }
     }
