@@ -18,7 +18,7 @@ function splitBadge(message) {
 };
 
 function newChatter(chatters, message) {
-    if (!chatters[message.tags.userId]) {
+    if (message.tags && !chatters[message.tags.userId]) {
         chatters[message.tags.userId] = {
             id: message.tags.userId,
             displayName: message.tags.displayName,
@@ -49,16 +49,17 @@ function newPrivateMessage(chatMessages, message) {
 
 function filterBy(filter, value, chatters) {
     const myarr = [1];
+    valueReal = parseInt(value);
     for (const userId in chatters) {
-        if (Number(chatters[userId][filter]) >= value) {
+        if (Number(chatters[userId][filter]) >= valueReal) {
             myarr.push(chatters[userId].id);
         }
     }
     return myarr
 };
 
-function filterIdList(...args) {
-    filterIds = new Set([].concat(...args));
+function filterIdList(filteredUserArrays) {
+    filterIds = new Set([].concat(...filteredUserArrays));
 };
 
 //if no one applies to filter, filter goes to 0, goes back to "normal" logic
