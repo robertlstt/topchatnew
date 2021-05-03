@@ -9,13 +9,13 @@ let chat;
 
 const streamerEntryForm = document.getElementById('streamerEntryForm')
 streamerEntryForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const streamerName = document.getElementById('streamerEntry');
-  if (chat) {
-    chat.disconnect();
-    app.innerHTML = '';
-  }
-  run(streamerName.value);
+    e.preventDefault();
+    const streamerName = document.getElementById('streamerEntry');
+    if (chat) {
+        chat.disconnect();
+        app.innerHTML = '';
+    }
+    run(streamerName.value);
 
 });
 
@@ -32,90 +32,75 @@ let filterIds = new Set;
 
 
 function makeSliderFilter({ type, filterName, min, max, step, start, blop }, onChange) {
-  if (type === 0) {
+
     const filterDiv = document.createElement('div');
     const checkBox = document.createElement('input');
     const fName = document.createElement('span');
-    const inputBox = document.createElement('input');
-    const slider = document.createElement('input');
+
 
     filterDiv.appendChild(checkBox);
     filterDiv.appendChild(fName);
-    filterDiv.appendChild(inputBox);
-    filterDiv.appendChild(slider);
 
-    checkBox.type = 'checkbox';
-    checkBox.className = 'boxClass';
+    filterDiv.className = 'checkboxouter';
+    checkBox.type = 'checkbox'
     fName.innerText = filterName;
-    inputBox.style.width = '25px';
-    inputBox.value = start;
-    slider.type = 'range';
-    slider.min = min;
-    slider.max = max;
-    slider.step = step;
-    slider.value = start;
+
+    if (type === 0) {
+        const inputBox = document.createElement('input');
+        const slider = document.createElement('input');
+        filterDiv.appendChild(inputBox);
+        filterDiv.appendChild(slider);
+        inputBox.style.width = '25px';
+        inputBox.value = start;
+        slider.type = 'range';
+        slider.min = min;
+        slider.max = max;
+        slider.step = step;
+        slider.value = start;
+
+        slider.addEventListener('change', () => {
+            inputBox.value = slider.value;
+            onChange(checkBox.checked, parseInt(slider.value));
+        });
 
 
-    slider.addEventListener('change', () => {
-      inputBox.value = slider.value;
-      onChange(checkBox.checked, parseInt(slider.value));
-    });
+        inputBox.addEventListener('change', () => {
+            let value = parseInt(inputBox.value);
+            if (!isNaN(value)) {
+                slider.value = inputBox.value;
+                onChange(checkBox.checked, parseInt(slider.value));
+            }
+        });
+    }
 
-
-    inputBox.addEventListener('change', () => {
-      let value = parseInt(inputBox.value);
-      if (!isNaN(value)) {
-        slider.value = inputBox.value;
+    checkBox.addEventListener('change', () => {
         onChange(checkBox.checked, parseInt(slider.value));
-      }
-    });
-
-    checkBox.addEventListener('change', () => {
-      onChange(checkBox.checked, parseInt(slider.value));
     })
     return filterDiv;
-  }
-  if (type === 1) {
-    const filterDiv = document.createElement('div');
-    const checkBox = document.createElement('input');
-    const fName = document.createElement('span');
-
-    filterDiv.appendChild(checkBox);
-    filterDiv.appendChild(fName);
-
-    checkBox.type = 'checkbox';
-    checkBox.className = 'boxClass';
-    fName.innerText = filterName;
-
-    checkBox.addEventListener('change', () => {
-      onChange(checkBox.checked, 1);
-    })
-    return filterDiv;
-  }
 }
 
 // function makeSliderFilter({ type, filterName, min, max, step, start, blop }, onChange)
 const Filters = [
-  { type: 0, filterName: 'subLength', min: 1, max: 60, step: 1, start: 6 },
-  { type: 0, filterName: 'gift', min: 5, max: 150, step: 5, start: 5 },
-  { type: 1, filterName: 'mod' }
+    { type: 0, filterName: 'subLength', min: 1, max: 60, step: 1, start: 6 },
+    { type: 0, filterName: 'gift', min: 5, max: 150, step: 5, start: 5 },
+    { type: 1, filterName: 'mod' }
 ];
 
 const usersByFilterName = {};
 
 Filters.forEach(Filter => {
-  const onChange = (checked, value) => {
-    Filter.checked = checked;
-    Filter.value = value
-    if (checked) {
-      usersByFilterName[Filter.filterName] = filterBy(Filter.filterName, value, chatters);
-    } else {
-      usersByFilterName[Filter.filterName] = [];
-    }
-    filterIdList(Object.values(usersByFilterName));
-    redrawMessages(chatMessages, filterIds);
-  };
-  document.getElementById('filters').appendChild(makeSliderFilter(Filter, onChange));
+    const onChange = (checked, value) => {
+        Filter.checked = checked;
+        Filter.value = value
+        if (checked) {
+            usersByFilterName[Filter.filterName] = filterBy(Filter.filterName, value, chatters);
+        } else {
+            usersByFilterName[Filter.filterName] = [];
+        }
+        filterIdList(Object.values(usersByFilterName));
+        redrawMessages(chatMessages, filterIds);
+    };
+    document.getElementById('filters').appendChild(makeSliderFilter(Filter, onChange));
 })
 
 // const subSlider = document.getElementById('subSlider')
@@ -206,47 +191,47 @@ Filters.forEach(Filter => {
 
 
 
-const run = async (channel) => {
-  chat = new Chat({
-    username,
-    token,
-    log: { level: "warn" }
-  });
-  chat.on("*", (message) => {
+const run = async(channel) => {
+    chat = new Chat({
+        username,
+        token,
+        log: { level: "warn" }
+    });
+    chat.on("*", (message) => {
 
-    splitBadge(message);
+        splitBadge(message);
 
-    newChatter(chatters, message);
+        newChatter(chatters, message);
 
-    newPrivateMessage(chatMessages, message);
-    // if(message.event != "PRIVMSG"){
-    Filters.forEach(Filter => {
-      if (Filter.checked) {
-        usersByFilterName[Filter.filterName] = filterBy(Filter.filterName, Filter.value, chatters);
-      } else {
-        usersByFilterName[Filter.filterName] = [];
-      }
-      filterIdList(Object.values(usersByFilterName));
+        newPrivateMessage(chatMessages, message);
+        // if(message.event != "PRIVMSG"){
+        Filters.forEach(Filter => {
+            if (Filter.checked) {
+                usersByFilterName[Filter.filterName] = filterBy(Filter.filterName, Filter.value, chatters);
+            } else {
+                usersByFilterName[Filter.filterName] = [];
+            }
+            filterIdList(Object.values(usersByFilterName));
+        })
+
+        appendMessage(message, filterIds);
+
+
+        // message.event "CHEER"
+        // message.tags.bits
+        // const time = new Date(message.timestamp).toTimeString();
+        // const event = message.event || message.command;
+        // const channel = message.channel;
+        // const msg = message.message || "";
+        // const name = message.tags.displayName;
+        // const receiver = message.parameters.recipientDisplayName;
+        // const color = message.tags.color;
+        // const gifted = message.tags.badges.subGifter;
+        // const subscription = message.event;
+        // message.event == "SUBSCRIPTION" || message.event == "RESUBSCRIPTION"  || message.event == "SUBSCRIPTION_GIFT"
     })
-
-    appendMessage(message, filterIds);
-
-
-    // message.event "CHEER"
-    // message.tags.bits
-    // const time = new Date(message.timestamp).toTimeString();
-    // const event = message.event || message.command;
-    // const channel = message.channel;
-    // const msg = message.message || "";
-    // const name = message.tags.displayName;
-    // const receiver = message.parameters.recipientDisplayName;
-    // const color = message.tags.color;
-    // const gifted = message.tags.badges.subGifter;
-    // const subscription = message.event;
-    // message.event == "SUBSCRIPTION" || message.event == "RESUBSCRIPTION"  || message.event == "SUBSCRIPTION_GIFT"
-  })
-  await chat.connect();
-  await chat.join(channel);
+    await chat.connect();
+    await chat.join(channel);
 };
 
 // run();

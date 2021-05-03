@@ -2,97 +2,31 @@
 <html>
 
 <head>
-  <title>TopChat</title>
-  <meta charset="UTF-8" />
-  <script src="https://unpkg.com/twitch-js@2.0.0-beta.31"></script>
-  <style>
-    .chat {
-      position: absolute;
-      top: 5%;
-      left: 0;
-      bottom: 0;
-      right: 150px;
-      overflow-y: scroll;
-      background: #765b5b;
-    }
-
-    .filters {
-      /* background: red; */
-      background: #765b5b;
-      position: absolute;
-      width: 150px;
-      right: 0px;
-      bottom: 0px;
-      top: 5%;
-    }
-
-    .streamerEntry {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      position: absolute;
-      left: 0px;
-      right: 0px;
-      height: 5%;
-      top: 0px;
-      text-align: center;
-    }
-
-    .logo {
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      height: 5%;
-      width: 5%;
-    }
-
-    .special {
-      width: 1.3em;
-      height: 1.3em;
-      background-color: white;
-      border-radius: 50%;
-      vertical-align: middle;
-      border: 1px solid #ddd;
-      -webkit-appearance: none;
-      outline: none;
-      cursor: pointer;
-      transition: all ease-in-out .3s;
-    }
-
-    .special:checked {
-      width: 1.3em;
-      height: 1.3em;
-      background-color: blue;
-      border-radius: 50%;
-      vertical-align: middle;
-      border: 1px solid #ddd;
-      -webkit-appearance: none;
-      outline: none;
-      cursor: pointer;
-      transition: all ease-in-out .3s;
-    }
-  </style>
+    <title>TopChat</title>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/twitch-js@2.0.0-beta.31"></script>
 </head>
 
 <body>
     <div id="app" class="chat"></div>
-  <div id="filters" class="filters">
+    <div id="filters" class="filters">
 
-  </div>
-  <div id="streamerentry" class="streamerEntry">
+    </div>
+
+    <div id="streamerentry" class="streamerEntry">
+        Enter Streamer Here:    
         <form id="streamerEntryForm">
-          <input id="streamerEntry">
-          <button id="entryButton" style="width: 50px; height: 20px;"></button>
+            <input id="streamerEntry">
+            <button id="entryButton" style="width: 50px; height: 20px;"></button>
         </form>
     </div>
 
 
-  </div>
-  <img src="images/TopChatLight.svg" class="logo" alt="Topchat Logo"></img>
-  <script src="src/index.js"></script>
-  <script src="src/functions.js"></script>
-  <link rel="stylesheet" href="src/styles.css">
+    </div>
+    <img src="images/TopChatLight.svg" class="logo" alt="Topchat Logo"></img>
+    <script src="src/index.js"></script>
+    <script src="src/functions.js"></script>
+    <link rel="stylesheet" href="src/styles.css">
 </body>
 
 </html>

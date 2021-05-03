@@ -1,46 +1,70 @@
-body {
-  font-family: sans-serif;
-  background-color: #765b5b;
+:root {
+    --primary-light: #e0e0e0;
+    --primary: #6d5dfc;
+    --primary-dark: #5b0eeb;
+    --white: #FFFFFF;
+    --greyLight-1: #E4EBF5;
+    --greyLight-2: #c8d0e7;
+    --greyLight-3: #bec8e4;
+    --greyDark: #9baacf;
 }
 
+body {
+    font-family: sans-serif;
+    background-color: var(--primary-light);
+}
 
 ::selection {
-  background: #19f6e8;
+    background: var(--primary-light);
 }
-.svg-wrapper {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  margin: 0 auto;
-  width: 500px;
+
+.checkboxouter {
+    border-radius: 14px;
+    background: linear-gradient(145deg, #cacaca, #f0f0f0);
+    box-shadow: 5px 5px 11px #bebebe, -5px -5px 11px #ffffff;
+    margin: 10px;
+    padding: 4px;
+    height: 50px;
+    text-align: center;
 }
-.shape1,
-.shape2 {
-  stroke-dasharray: 1120;
-  stroke-width: 5px;
-  fill: transparent;
-  stroke: #19f6e8;
-  border-bottom: 5px solid black;
-  transition-timing-function: linear;
-  transition: stroke-dashoffset 4s, stroke-dasharray 4s;
+
+.chat {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    bottom: 0;
+    right: 150px;
+    overflow-y: scroll;
+    background: var(--primary-light);
 }
-.shape1 {
-  stroke-dashoffset: 1120;
+
+.filters {
+    /* background: red; */
+    background: var(--primary-light);
+    position: absolute;
+    width: 170px;
+    right: 0px;
+    bottom: 0px;
+    top: 5%;
 }
-.shape2 {
-  stroke-dashoffset: -1120;
+
+.streamerEntry {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    height: 5%;
+    top: 0px;
+    text-align: center;
 }
-.text {
-  font-family: 'Roboto Condensed';
-  font-size: 22px;
-  line-height: 32px;
-  letter-spacing: 8px;
-  color: #fff;
-  top: -48px;
-  position: relative;
-}
-.svg-wrapper:hover .shape1,
-.svg-wrapper:hover .shape2 {
-  stroke-dashoffset: 0;
-  stroke-dasharray: 1120;
+
+.logo {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 5%;
+    width: 5%;
 }
