@@ -121,7 +121,7 @@ const run = async (channel) => {
         newChatter(chatters, message);
 
         newPrivateMessage(chatMessages, message);
-        // if(message.event != "PRIVMSG"){
+
         Filters.forEach(Filter => {
             if (Filter.checked) {
                 usersByFilterName[Filter.filterFor] = filterBy(Filter.filterFor, Filter.value, chatters);
@@ -133,24 +133,16 @@ const run = async (channel) => {
 
         appendMessage(message, filterIds);
 
-
         // message.event "CHEER"
-        // message.tags.bits
-        // const time = new Date(message.timestamp).toTimeString();
         // const event = message.event || message.command;
-        // const channel = message.channel;
-        // const msg = message.message || "";
-        // const name = message.tags.displayName;
         // const receiver = message.parameters.recipientDisplayName;
-        // const color = message.tags.color;
-        // const gifted = message.tags.badges.subGifter;
-        // const subscription = message.event;
         // message.event == "SUBSCRIPTION" || message.event == "RESUBSCRIPTION"  || message.event == "SUBSCRIPTION_GIFT"
     })
     await chat.connect();
     const Connecting = document.createElement('span');
     Connecting.innerText = 'Connecting....'
     app.appendChild(Connecting);
+    chatMessages = [];
     await chat.join(channel);
 
 };
