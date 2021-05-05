@@ -1,5 +1,3 @@
-// import "./styles.css";
-
 // Provide your token, username and channel. You can generate a token here:
 // https://twitchtokengenerator.com
 const username = undefined;
@@ -56,6 +54,8 @@ function makeFilter({ type, filterFor, filterName, min, max, step, start, blop }
         slider.max = max;
         slider.step = step;
         slider.value = start;
+        slider.style.width = '129px';
+        slider.style.height = '16px';
 
         slider.addEventListener('change', () => {
             inputBox.value = slider.value;
@@ -146,5 +146,3 @@ const run = async (channel) => {
     await chat.join(channel);
 
 };
-
-// run();

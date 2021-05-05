@@ -63,8 +63,6 @@ function filterIdList(filteredUserArrays) {
     filterIds = new Set([].concat(...filteredUserArrays));
 };
 
-//if no one applies to filter, filter goes to 0, goes back to "normal" logic
-
 function appendMessage(message, filterIds) {
 
     const atBottom = app.scrollHeight == app.scrollTop + app.offsetHeight;
