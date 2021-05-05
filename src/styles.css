@@ -3,7 +3,7 @@
     --primary: #6d5dfc;
     --primary-dark: #5b0eeb;
     --white: #FFFFFF;
-    --greyLight-1: #E4EBF5;
+    --greyLight-1: #eef5ff;
     --greyLight-2: #c8d0e7;
     --greyLight-3: #bec8e4;
     --greyDark: #9baacf;
@@ -32,10 +32,10 @@ body {
     position: absolute;
     top: 5%;
     left: 0;
-    bottom: 0;
+    bottom: 60px;
     right: 150px;
     overflow-y: scroll;
-    background: var(--primary-light);
+    background: var(--greyLight-1);
 }
 
 .filters {
@@ -44,9 +44,20 @@ body {
     position: absolute;
     width: 180px;
     right: 0px;
-    bottom: 0px;
+    bottom: 40px;
     top: 5%;
 }
+
+.contact{
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+    left: 0%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
 
 .streamerEntry {
     display: flex;
